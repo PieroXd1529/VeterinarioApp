@@ -11,22 +11,43 @@ $url_base="http://localhost/app/";
 
     if(isset($_GET['txtID'])){
         $txtID=(isset($_GET['txtID']))?$_GET['txtID']:"";
-        $sentencia=$conexion->prepare("DELETE FROM pet WHERE id_pet=:id_pet");
+        $sentencia=$conexion->prepare("SELECT foto,historia FROM `pet` WHERE  id_pet=:id_pet");
         $sentencia->bindParam(":id_pet",$txtID);
         $sentencia->execute();
-        header("Location:index.php");
+        $registro_recuperado=$sentencia->fetch(PDO::FETCH_LAZY);
+        print_r($registro_recuperado);
+        
+        
+        if(isset($registro_recuperado["foto"]) &&  $registro_recuperado ["foto"]!=""){
+            if(file_exists("./".$registro_recuperado["foto"])){
+                unlink("./".$registro_recuperado["foto"]);
+    
+            }
+        }
+
+
+        if(isset($registro_recuperado["historia"]) &&  $registro_recuperado ["historia"]!=""){
+            if(file_exists("./".$registro_recuperado["historia"])){
+                unlink("./".$registro_recuperado["historia"]);
+    
+            }
+        }
     }
 
-    $sentencia=$conexion->prepare("SELECT * ,
-    (SELECT tipo from pet_type WHERE pet_type.id_type=pet.id_type limit 1)  as tipo ,(SELECT nomraza from raza WHERE raza.id_raza=pet.id_raza limit 1)  as raza,    (SELECT nom_due from dueño WHERE dueño.id=pet.id_due limit 1)  as due
-    FROM `pet`");
-    
-   
-
-   
-    
+         
+    $sentencia=$conexion->prepare("DELETE FROM pet WHERE id_pet=:id_pet");
+    $sentencia->bindParam(":id_pet",$txtID);
     $sentencia->execute();
-    $lista_pets=$sentencia->fetchAll(PDO::FETCH_ASSOC);
+    
+
+    $sentencia=$conexion->prepare("SELECT * ,
+    (SELECT tipo from pet_type WHERE pet_type.id_type=pet.id_type limit 1)  as tipo ,(SELECT nomraza from raza WHERE raza.id_raza=pet.id_raza limit 1)  as raza
+    FROM `pet`");
+    $sentencia->execute();
+    $lista_mascotas=$sentencia->fetchAll(PDO::FETCH_ASSOC);
+
+
+  
 
 
 
@@ -132,8 +153,7 @@ $url_base="http://localhost/app/";
 
 
            
-      <!-- Menu -->
-      <div class="menu">
+            <div class="menu">
                 <ul class="list">
                     <li class="header">MENÚ DE NAVEGACIÓN</li>
                     <li>
@@ -218,22 +238,22 @@ $url_base="http://localhost/app/";
                         </ul>
                     </li>
 <!--======================================================================================================-->
-                    <li class="active">
+                    <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">flutter_dash</i>
                             <span>MASCOTAS</span>
                         </a>
                         <ul class="ml-menu">
                             <li class="active">
-                                <a href="../mascotas/nuevo">Registrar</a>
+                                <a href="<?php echo $url_base; ?>secciones/mascota/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/mascotas">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/mascota">Listar / Modificar</a>
                             </li>
                             <li class="active">
                                 <a href="<?php echo $url_base; ?>secciones/tipo">Tipos</a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a href="<?php echo $url_base; ?>secciones/raza">Razas</a>
                             </li>
                         </ul>
@@ -304,7 +324,6 @@ $url_base="http://localhost/app/";
 
 
 
-
 <!--=============================================================CONTENIDO DE LA PÁGINA =============================================================-->
 -=============================================================CONTENIDO DE LA PÁGINA =============================================================-->
 <section class="content">
@@ -336,9 +355,7 @@ $url_base="http://localhost/app/";
                                         <th>RAZA</th>
                                         <th>SEXO</th>
                                         <th>EDAD</th>
-                                        <th>TAMAÑO</th>
                                         <th>PESO</th>
-                                        <th>DUEÑO</th>
                                         <th>OBSERVACIONES</th>
                                         <th>FECHA</th>
                                         <th>ESTADO</th>
@@ -348,7 +365,7 @@ $url_base="http://localhost/app/";
                                     </thead>
                                     
                                     <tbody>
-                                    <?php foreach($lista_pets as $registro){?>
+                                    <?php foreach($lista_mascotas as $registro){?>
             <tr class="">
                     <td scope="row"><?php echo $registro['id_pet'];?></td>
                     <td ><?php echo $registro['nom_mas'];?></td>
@@ -362,9 +379,7 @@ $url_base="http://localhost/app/";
                     <td ><?php echo $registro['raza'];?></td>
                     <td ><?php echo $registro['sexo'];?></td>
                     <td ><?php echo $registro['edad'];?></td>
-                    <td ><?php echo $registro['tamaño'];?></td>
-                    <td ><?php echo $registro['peso'];?></td>
-                    <td ><?php echo $registro['due'];?></td>
+                    <td ><?php echo $registro['peso'];?></td>       
                     <td ><?php echo $registro['observ'];?></td>
                     <td ><?php echo $registro['fecha'];?></td>
                    
@@ -374,23 +389,23 @@ $url_base="http://localhost/app/";
 <td><?php    
 
 if($registro['estado']==1)  { ?> 
-<form  method="get" action="javascript:activo('<?php echo $registro['id_type']; ?>')">
+<form  method="get" action="javascript:activo('<?php echo $registro['id_pet']; ?>')">
    
     <span class="label label-success">Activo</span>
 </form>
 <?php  }   else {?> 
 
-    <form  method="get" action="javascript:inactivo('<?php echo $registro['id_type']; ?>')"> 
+    <form  method="get" action="javascript:inactivo('<?php echo $registro['id_pet']; ?>')"> 
         <button type="submit" class="btn btn-danger btn-xs">Inactivo</button>
      </form>
         <?php  } ?></td> 
 
 
 
-        <td><a name="" id="" class="btn btn-info" href="editar.php?txtID=<?php echo $registro['id_raza'];?>"  class="btn bg-blue btn-circle waves-effect waves-circle waves-float">
+        <td><a name="" id="" class="btn btn-info" href="editar.php?txtID=<?php echo $registro['id_pet'];?>"  class="btn bg-blue btn-circle waves-effect waves-circle waves-float">
                     <i class="material-icons">autorenew</i>
                 </a>
-                <a name="" id="" class="btn btn-danger" href="index.php?txtID=<?php echo $registro['id_raza'];?>"  class="btn bg-red btn-circle waves-effect waves-circle waves-float">
+                <a name="" id="" class="btn btn-danger" href="index.php?txtID=<?php echo $registro['id_pet'];?>"  class="btn bg-red btn-circle waves-effect waves-circle waves-float">
                     <i class="material-icons">delete</i>
                 </a>
               

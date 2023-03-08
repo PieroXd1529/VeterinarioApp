@@ -153,8 +153,7 @@ if($_POST){
             <!-- #User Info -->
 
 
-        <!-- Menu -->
-        <div class="menu">
+            <div class="menu">
                 <ul class="list">
                     <li class="header">MENÚ DE NAVEGACIÓN</li>
                     <li>
@@ -239,22 +238,22 @@ if($_POST){
                         </ul>
                     </li>
 <!--======================================================================================================-->
-                    <li class="active">
+                    <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">flutter_dash</i>
                             <span>MASCOTAS</span>
                         </a>
                         <ul class="ml-menu">
                             <li class="active">
-                                <a href="../mascotas/nuevo">Registrar</a>
+                                <a href="<?php echo $url_base; ?>secciones/mascota/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/mascotas">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/mascota">Listar / Modificar</a>
                             </li>
                             <li class="active">
                                 <a href="<?php echo $url_base; ?>secciones/tipo">Tipos</a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a href="<?php echo $url_base; ?>secciones/raza">Razas</a>
                             </li>
                         </ul>

@@ -13,38 +13,55 @@ if($_POST){
 
   print_r($_FILES);
   $nom_mas=(isset($_POST["nom_mas"])?$_POST["nom_mas"]:"");
-
-
   $id_type=(isset($_POST["id_type"])?$_POST["id_type"]:"");
   $id_raza=(isset($_POST["id_raza"])?$_POST["id_raza"]:"");
+  $foto=(isset($_FILES["foto"]['name'])?$_FILES["foto"]['name']:"");
+  $historia=(isset($_FILES["historia"]['name'])?$_FILES["historia"]['name']:"");
   $sexo=(isset($_POST["sexo"])?$_POST["sexo"]:"");
   $edad=(isset($_POST["edad"])?$_POST["edad"]:"");
-  $tamaño=(isset($_POST["tamaño"])?$_POST["tamaño"]:"");
+
   $peso=(isset($_POST["peso"])?$_POST["peso"]:"");
-  $id_due=(isset($_POST["id_due"])?$_POST["id_due"]:"");
   $observ=(isset($_POST["observ"])?$_POST["observ"]:"");
   $fecha=(isset($_POST["fecha"])?$_POST["fecha"]:"");
   $estado=(isset($_POST["estado"])?$_POST["estado"]:"");
 
   
 
-  $sentencia=$conexion->prepare("INSERT INTO `pet` (`id_pet`, `nom_mas`,   `id_type`, `id_raza`, `sexo`, `edad`, `tamaño`, `peso`, `id_due`, `observ`, `fecha`, `estado`)
-   VALUES (NULL, :nom_mas,   :id_type, :id_raza, :sexo, :edad,:tamaño,:peso, :id_due, :observ, :fecha,:estado);");
+  $sentencia=$conexion->prepare("INSERT INTO `pet` (`id_pet`, `nom_mas`, `historia`, `foto`, `id_type`, `id_raza`, `sexo`, `edad`,  `peso`, `observ`, `fecha`, `estado`)
+   VALUES (NULL, :nom_mas, :historia,:foto,  :id_type, :id_raza, :sexo, :edad,:peso,  :observ, :fecha,:estado);");
 
-  $sentencia->bindParam(":nom_mas",$nom_mas);
-  $sentencia->bindParam(":id_type",$id_type);
-  $sentencia->bindParam(":id_raza",$id_raza);
-  $sentencia->bindParam(":sexo",$sexo);
-  $sentencia->bindParam(":edad",$edad);
-  $sentencia->bindParam(":tamaño",$tamaño);
+ $sentencia->bindParam(":nom_mas",$nom_mas);
+ $sentencia->bindParam(":id_type",$id_type);
+$sentencia->bindParam(":id_raza",$id_raza);
+ $sentencia->bindParam(":sexo",$sexo);
+ $sentencia->bindParam(":edad",$edad);
+
   $sentencia->bindParam(":peso",$peso);
-  $sentencia->bindParam(":id_due",$id_due);
   $sentencia->bindParam(":observ",$observ);
   $sentencia->bindParam(":fecha",$fecha);
   $sentencia->bindParam(":estado",$estado);
 
 
+  $fecha_=new DateTime();
 
+  $nombreArchivo_foto=($foto!='')?$fecha_->getTimestamp()."_".$_FILES["foto"]['name']:"";
+  $tmp_foto=$_FILES["foto"]['tmp_name'];
+
+  if($tmp_foto!=''){
+    move_uploaded_file($tmp_foto,"./".$nombreArchivo_foto);
+  }
+
+
+
+  
+  $nombreArchivo_historia=($historia!='')?$fecha_->getTimestamp()."_".$_FILES["historia"]['name']:"";
+  $tmp_historia=$_FILES["historia"]['tmp_name'];
+
+  if($tmp_historia!=''){
+    move_uploaded_file($tmp_historia,"./".$nombreArchivo_historia);
+  }
+  $sentencia->bindParam(":foto",$nombreArchivo_foto);   
+  $sentencia->bindParam(":historia",$nombreArchivo_historia);
 
   $sentencia->execute();
   header("Location:index.php");
@@ -167,7 +184,6 @@ if($_POST){
             <!-- #User Info -->
 
 
-            <!-- Menu -->
             <div class="menu">
                 <ul class="list">
                     <li class="header">MENÚ DE NAVEGACIÓN</li>
@@ -181,14 +197,14 @@ if($_POST){
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">inbox</i>
-                            <span>PRODUCTOS</span>
+                            <span>Usuarios</span>
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="../productos/nuevo">Registrar</a>
+                                <a href="<?php echo $url_base; ?>secciones/usuarios/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/productos">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/usuarios">Listar / Modificar</a>
                             </li>
                         </ul>
                     </li>
@@ -215,10 +231,10 @@ if($_POST){
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="../clientes/nuevo">Registrar</a>
+                                <a href="<?php echo $url_base; ?>secciones/cliente/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/clientes">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/cliente/">Listar / Modificar</a>
                             </li>
                         </ul>
                     </li>
@@ -245,36 +261,36 @@ if($_POST){
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="../veterinarios/nuevo">Registrar</a>
+                                <a href="<?php echo $url_base; ?>secciones/veterinario/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/veterinarios">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/veterinario">Listar / Modificar</a>
                             </li>
                         </ul>
                     </li>
 <!--======================================================================================================-->
-                    <li class="active">
+                    <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">flutter_dash</i>
                             <span>MASCOTAS</span>
                         </a>
                         <ul class="ml-menu">
                             <li class="active">
-                                <a href="../mascotas/nuevo">Registrar</a>
-                            </li>
-                            <li >
-                                <a href="../../folder/mascotas">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/mascota/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/tipo">Tipos</a>
+                                <a href="<?php echo $url_base; ?>secciones/mascota">Listar / Modificar</a>
                             </li>
-                            <li>
-                                <a href="../../folder/raza">Razas</a>
+                            <li class="active">
+                                <a href="<?php echo $url_base; ?>secciones/tipo">Tipos</a>
+                            </li>
+                            <li class="active">
+                                <a href="<?php echo $url_base; ?>secciones/raza">Razas</a>
                             </li>
                         </ul>
 </li>
 <!--======================================================================================================-->
-                    <li>
+                    <li >
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">calendar_today</i>
                             <span>CITAS</span>
@@ -286,8 +302,9 @@ if($_POST){
                             <li>
                                 <a href="../../folder/citas">Listar / Modificar</a>
                             </li>
-                            <li>
-                                <a href="../../folder/servicio">Servicio</a>
+
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/servicios">Servicio</a>
                             </li>
                         </ul>
     </li>
@@ -304,9 +321,12 @@ if($_POST){
                             <li>
                                 <a href="../../folder/compra">Listar / Modificar</a>
                             </li>
+
                             <li>
                                 <a href="../compra/compras_fecha">Consultar por fecha</a>
                             </li>
+
+
                         </ul>
     </li>
 <!--======================================================================================================-->
@@ -322,7 +342,8 @@ if($_POST){
                             <li>
                                 <a href="../../folder/venta">Listar / Modificar</a>
                             </li>
-                            <li>
+
+                             <li>
                                 <a href="../venta/venta_fecha">Consultar por fecha</a>
                             </li>
                         </ul>
@@ -331,7 +352,6 @@ if($_POST){
         <aside id="rightsidebar" class="right-sidebar">
         </aside>
     </section>
-
 <!--============================CONTENIDO DE LA PÁGINA ==========================================================-->
 
     <section class="content">
@@ -358,15 +378,10 @@ if($_POST){
                                     <label class="control-label">Nombre de la mascota<span class="text-danger">*</span></label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <input type="text" name="nomas" required class="form-control" placeholder="Nombre de la mascota..." />
+                                            <input type="text" name="nom_mas" required class="form-control" placeholder="Nombre de la mascota..." />
                                         </div>
                                     </div>
                                 </div>
-
-                           
-
-
-                      
 
                                 <div class="col-sm-4">
                                     <label class="control-label">Sexo de la mascota<span class="text-danger">*</span></label>
@@ -383,6 +398,24 @@ if($_POST){
                                     <div class="form-group">
                                         <div class="form-line">
                                             <input type="text" name="edad" required class="form-control" placeholder="Edad de la mascota..." />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                     <label class="control-label">Foto del mascota<span class="text-danger">*</span></label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                        <input type="file"class="form-control" name="foto" id="foto" aria-describedby="helpId" placeholder="foto">             
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                     <label class="control-label">Historia de la mascota<span class="text-danger">*</span></label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                        <input type="file"class="form-control" name="historia" id="historia" aria-describedby="helpId" placeholder="historia">             
                                         </div>
                                     </div>
                                 </div>
@@ -457,49 +490,8 @@ if($_POST){
         }
         ?>
             </select> 
-                                        </div>
-                                    </div>
-                                </div>
 
-
-
-                                <div class="col-sm-4">
-                                    <label class="control-label">Dueño de la mascota<span class="text-danger">*</span></label>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                           <select class="form-control show-tick" required  name="id_due">
-                                        <option value="">-- Seleccione un dueño --</option>
-                                        <?php 
- $dbhost = 'localhost';
- $dbname = 'vetedog';  
- $dbuser = 'root';                  
- $dbpass = '';                  
- 
- try{
-  
-  $dbcon = new PDO("mysql:host={$dbhost};dbname={$dbname}",$dbuser,$dbpass);
-  $dbcon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  
- }catch(PDOException $ex){
-  
-  die($ex->getMessage());
- }
- $stmt = $dbcon->prepare('SELECT * FROM dueño');
-        $stmt->execute();
-        
-        while($row=$stmt->fetch(PDO::FETCH_ASSOC))
-        {
-            extract($row);
-            ?>
-            <option value="<?php echo $id; ?>"><?php echo $nom_due; ?>&nbsp;<?php echo $ape_due; ?></option>
-            <?php
-        }
-        ?>
-?>
-                                    </select> 
-                                        </div>
-                                    
-                                </div>
+            </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <div class="form-line">
@@ -509,15 +501,7 @@ if($_POST){
                                 </div>
 
         
-                                <div class="col-sm-6">
-                                    <label class="control-label">Tamaño de la mascota<span class="text-danger">*</span></label>
-                                    <select name="tamano" required class="form-control show-tick">
-                                        <option value="">-- Seleccione un tamaño --</option>
-                                        <option value="Pequeña">Pequeña</option>
-                                        <option value="Grande">Grande</option>
-                                        
-                                    </select>
-                                </div>
+                          
 
                                 <div class="col-sm-4">
                                     <label class="control-label">Peso de la mascota<span class="text-danger">*</span></label>
@@ -532,10 +516,11 @@ if($_POST){
                                     <label class="control-label">Observacion de la mascota</label>
                                     <div class="form-group">
                                         <div class="form-line">
-                                            <textarea rows="4" name="obser" class="form-control no-resize" placeholder="Observaciones..."></textarea>
+                                            <textarea rows="4" name="observ" class="form-control no-resize" placeholder="Observaciones..."></textarea>
                                         </div>
                                     </div>
                                 </div>
+                                     
 
 
 

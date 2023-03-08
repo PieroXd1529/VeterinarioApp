@@ -123,9 +123,7 @@ $url_base="http://localhost/app/";
          
 
                    
-
-      <!-- Menu -->
-      <div class="menu">
+                <div class="menu">
                 <ul class="list">
                     <li class="header">MENÚ DE NAVEGACIÓN</li>
                     <li>
@@ -217,10 +215,10 @@ $url_base="http://localhost/app/";
                         </a>
                         <ul class="ml-menu">
                             <li class="active">
-                                <a href="../mascotas/nuevo">Registrar</a>
+                                <a href="<?php echo $url_base; ?>secciones/mascota/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/mascotas">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/mascota">Listar / Modificar</a>
                             </li>
                             <li class="active">
                                 <a href="<?php echo $url_base; ?>secciones/tipo">Tipos</a>

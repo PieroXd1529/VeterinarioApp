@@ -15,8 +15,8 @@ include("../../bd.php");
 if(isset($_GET['txtID'])){
     $txtID=(isset($_GET['txtID']))?$_GET['txtID']:"";
 
-    $sentencia=$conexion->prepare("SELECT foto FROM `dueño` WHERE  id=:id");
-    $sentencia->bindParam(":id",$txtID);
+    $sentencia=$conexion->prepare("SELECT foto FROM `dueño` WHERE  id_due=:id_due");
+    $sentencia->bindParam(":id_due",$txtID);
     $sentencia->execute();
     $registro_recuperado=$sentencia->fetch(PDO::FETCH_LAZY);
     print_r($registro_recuperado);
@@ -31,8 +31,8 @@ if(isset($_GET['txtID'])){
 
    
     
-    $sentencia=$conexion->prepare("DELETE FROM dueño WHERE  id=:id");
-    $sentencia->bindParam(":id",$txtID);
+    $sentencia=$conexion->prepare("DELETE FROM dueño WHERE  id_due=:id_due");
+    $sentencia->bindParam(":id_due",$txtID);
     $sentencia->execute();
     header("Location:index.php");
     
@@ -161,8 +161,8 @@ $lista_dueños=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
             <!-- #User Info -->
-
-            <div class="menu">
+   <!-- Menu -->
+   <div class="menu">
                 <ul class="list">
                     <li class="header">MENÚ DE NAVEGACIÓN</li>
                     <li>
@@ -172,7 +172,7 @@ $lista_dueños=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                         </a>
                     </li>
 <!--======================================================================================================-->
-                    <li >
+                    <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">inbox</i>
                             <span>Usuarios</span>
@@ -181,7 +181,7 @@ $lista_dueños=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                             <li>
                                 <a href="<?php echo $url_base; ?>secciones/usuarios/crear.php">Registrar</a>
                             </li>
-                            <li >
+                            <li>
                                 <a href="<?php echo $url_base; ?>secciones/usuarios">Listar / Modificar</a>
                             </li>
                         </ul>
@@ -202,7 +202,7 @@ $lista_dueños=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                         </ul>
                     </li>
 <!--======================================================================================================-->
-                    <li  class="active">
+                    <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">supervisor_account</i>
                             <span>CLIENTES</span>
@@ -211,8 +211,8 @@ $lista_dueños=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                             <li>
                                 <a href="<?php echo $url_base; ?>secciones/cliente/crear.php">Registrar</a>
                             </li>
-                            <li  class="active">
-                                <a href="<?php echo $url_base; ?>secciones/cliente/crear.php">Listar / Modificar</a>
+                            <li>
+                                <a href="<?php echo $url_base; ?>secciones/cliente/">Listar / Modificar</a>
                             </li>
                         </ul>
                     </li>
@@ -232,7 +232,7 @@ $lista_dueños=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                         </ul>
                     </li>
 <!--======================================================================================================-->
-                    <li >
+                    <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">person_pin</i>
                             <span>VETERINARIOS</span>
@@ -241,7 +241,7 @@ $lista_dueños=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                             <li>
                                 <a href="<?php echo $url_base; ?>secciones/veterinario/crear.php">Registrar</a>
                             </li>
-                            <li >
+                            <li>
                                 <a href="<?php echo $url_base; ?>secciones/veterinario">Listar / Modificar</a>
                             </li>
                         </ul>
@@ -253,17 +253,17 @@ $lista_dueños=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                             <span>MASCOTAS</span>
                         </a>
                         <ul class="ml-menu">
-                            <li>
-                                <a href="../mascotas/nuevo">Registrar</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/mascota/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/mascotas">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/mascota">Listar / Modificar</a>
                             </li>
-                            <li>
-                                <a href="../../folder/tipo">Tipos</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/tipo">Tipos</a>
                             </li>
-                            <li>
-                                <a href="../../folder/raza">Razas</a>
+                            <li class="active">
+                                <a href="<?php echo $url_base; ?>secciones/raza">Razas</a>
                             </li>
                         </ul>
 </li>
@@ -360,7 +360,7 @@ $lista_dueños=$sentencia->fetchAll(PDO::FETCH_ASSOC);
             <tbody>
             <?php foreach($lista_dueños as $registro){?>
                 <tr class="">
-                    <td scope="row"><?php echo $registro['id'];?></td>
+                    <td scope="row"><?php echo $registro['id_due'];?></td>
                     <td ><?php echo $registro['nom_due'];?></td>
                     <td ><?php echo $registro['ape_due'];?></td>
                     <td ><?php echo $registro['movil'];?></td>
@@ -380,10 +380,10 @@ $lista_dueños=$sentencia->fetchAll(PDO::FETCH_ASSOC);
    
 
                    
-<td><a name="" id="" class="btn btn-info" href="editar.php?txtID=<?php echo $registro['id'];?>"  class="btn bg-blue btn-circle waves-effect waves-circle waves-float">
+<td><a name="" id="" class="btn btn-info" href="editar.php?txtID=<?php echo $registro['id_due'];?>"  class="btn bg-blue btn-circle waves-effect waves-circle waves-float">
                     <i class="material-icons">autorenew</i>
                 </a>
-                <a name="" id="" class="btn btn-danger" href="index.php?txtID=<?php echo $registro['id'];?>"  class="btn bg-red btn-circle waves-effect waves-circle waves-float">
+                <a name="" id="" class="btn btn-danger" href="index.php?txtID=<?php echo $registro['id_due'];?>"  class="btn bg-red btn-circle waves-effect waves-circle waves-float">
                     <i class="material-icons">delete</i>
                 </a>
               

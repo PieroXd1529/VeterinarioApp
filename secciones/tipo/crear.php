@@ -145,7 +145,6 @@ if($_POST){
             <!-- #User Info -->
 
 
-            <!-- Menu -->
             <div class="menu">
                 <ul class="list">
                     <li class="header">MENÚ DE NAVEGACIÓN</li>
@@ -237,22 +236,22 @@ if($_POST){
                             <span>MASCOTAS</span>
                         </a>
                         <ul class="ml-menu">
-                            <li>
-                                <a href="../mascotas/nuevo">Registrar</a>
+                            <li class="active">
+                                <a href="<?php echo $url_base; ?>secciones/mascota/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/mascotas">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/mascota">Listar / Modificar</a>
                             </li>
-                            <li  class="active">
+                            <li class="active">
                                 <a href="<?php echo $url_base; ?>secciones/tipo">Tipos</a>
                             </li>
-                            <li>
-                                <a href="../../folder/raza">Razas</a>
+                            <li class="active">
+                                <a href="<?php echo $url_base; ?>secciones/raza">Razas</a>
                             </li>
                         </ul>
 </li>
 <!--======================================================================================================-->
-                    <li>
+                    <li >
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">calendar_today</i>
                             <span>CITAS</span>

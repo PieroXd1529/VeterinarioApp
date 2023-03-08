@@ -238,23 +238,23 @@ $url_base="http://localhost/app/";
                         </ul>
                     </li>
 <!--======================================================================================================-->
-                    <li>
+<li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">flutter_dash</i>
                             <span>MASCOTAS</span>
                         </a>
                         <ul class="ml-menu">
-                            <li>
-                                <a href="../mascotas/nuevo">Registrar</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/mascota/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/mascotas">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/mascota">Listar / Modificar</a>
                             </li>
-                            <li>
-                                <a href="../../folder/tipo">Tipos</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/tipo">Tipos</a>
                             </li>
-                            <li>
-                                <a href="../../folder/raza">Razas</a>
+                            <li class="active">
+                                <a href="<?php echo $url_base; ?>secciones/raza">Razas</a>
                             </li>
                         </ul>
 </li>
