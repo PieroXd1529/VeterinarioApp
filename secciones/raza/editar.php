@@ -420,7 +420,7 @@ if($query){
                                     </div>
 
                                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                        <a type="button" href="../../folder/raza" class="btn bg-red"><i class="material-icons">cancel</i> LIMPIAR </a>
+                                        <a type="button" href="index.php" class="btn bg-red"><i class="material-icons">cancel</i> LIMPIAR </a>
                                     </div>
 
                                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">

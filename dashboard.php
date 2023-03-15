@@ -169,7 +169,7 @@
                                 <a href="../mascotas/nuevo">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/mascotas">Listar / Modificar</a>
+                                <a href="secciones/mascota/index.php">Listar / Modificar</a>
                             </li>
                             <li>
                                 <a href="secciones/tipo/index.php">Tipos</a>
