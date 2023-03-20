@@ -269,11 +269,11 @@ $lista_veterinarios=$sentencia->fetchAll(PDO::FETCH_ASSOC);
                             <span>CITAS</span>
                         </a>
                         <ul class="ml-menu">
-                            <li>
-                                <a href="../citas/nuevo">Registrar</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/citas/crear.php">Registrar</a>
                             </li>
-                            <li>
-                                <a href="../../folder/citas">Listar / Modificar</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/citas">Listar / Modificar</a>
                             </li>
 
                             <li >

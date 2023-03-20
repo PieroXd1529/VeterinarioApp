@@ -98,6 +98,22 @@
                             </li>
                         </ul>
                     </li>
+
+
+                    <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">inbox</i>
+                            <span>PRODUCTOS</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="secciones/producto/crear.php">Registrar</a>
+                            </li>
+                            <li>
+                                <a href="secciones/producto/index.php">Listar / Modificar</a>
+                            </li>
+                        </ul>
+                    </li>
 <!--======================================================================================================-->
 					<li>
                         <a href="javascript:void(0);" class="menu-toggle">
@@ -106,10 +122,10 @@
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="../categorias/nuevo">Registrar</a>
+                                <a href="secciones/categoria/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/categorias">Listar / Modificar</a>
+                                <a href="secciones/categoria/index.php">Listar / Modificar</a>
                             </li>
                         </ul>
                     </li>
@@ -121,7 +137,7 @@
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="secciones/cliente/crear.php"">Registrar</a>
+                                <a href="secciones/cliente/crear.php">Registrar</a>
                             </li>
                             <li>
                                 <a href="secciones/cliente/index.php">Listar / Modificar</a>
@@ -136,10 +152,10 @@
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="../proveedores/nuevo">Registrar</a>
+                                <a href="secciones/provedores/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/proveedores">Listar / Modificar</a>
+                                <a href="secciones/provedores/index.php">Listar / Modificar</a>
                             </li>
                         </ul>
                     </li>

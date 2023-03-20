@@ -15,7 +15,7 @@ if($_POST){
 
 
   $sentencia=$conexion->prepare("INSERT INTO `pet_type` (`id_type`, `tipo`, `estado`,`fecha`) VALUES (NULL, :tipo, :estado,:fecha);");
-
+  
 
 
   $sentencia->bindParam(":tipo",$tipo);
@@ -257,11 +257,11 @@ if($_POST){
                             <span>CITAS</span>
                         </a>
                         <ul class="ml-menu">
-                            <li>
-                                <a href="../citas/nuevo">Registrar</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/citas/crear.php">Registrar</a>
                             </li>
-                            <li>
-                                <a href="../../folder/citas">Listar / Modificar</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/citas">Listar / Modificar</a>
                             </li>
 
                             <li >
@@ -409,3 +409,4 @@ if($_POST){
 
     <script src="../../assets/js/demo.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    

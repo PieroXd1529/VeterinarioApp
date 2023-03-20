@@ -86,7 +86,7 @@ $stmt = $conexion->prepare('SELECT id,  usuario, contra,correo, id_cargo FROM us
 
         </div>
 
-    <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
+    <div class="flex items-center min-h-screen p-6  dark:bg-gray-900">
       <div
         
       >

@@ -1,100 +1,43 @@
-
-
 <?php
-
 $url_base="http://localhost/app/";
 
-
-?>
-<?php
-include("../../bd.php");
-if($_POST){
-  print_r($_POST);
-
-  print_r($_FILES);
-  $nombre=(isset($_POST["nombre"])?$_POST["nombre"]:"");
-  $apellido=(isset($_POST["apellido"])?$_POST["apellido"]:"");
-  $foto=(isset($_FILES["foto"]['name'])?$_FILES["foto"]['name']:"");
-  $direccion=(isset($_POST["direccion"])?$_POST["direccion"]:"");
-  $telefono=(isset($_POST["telefono"])?$_POST["telefono"]:"");
-
-  $sentencia=$conexion->prepare("INSERT INTO `citas` (`id_cita`, `id_vet`, `id_type`, `id_servi`, `titulo`, `nommas`, `dueño`, `fecha`, `precio`) VALUES (NULL, '1', '1', '1', 'Corte de Pelo', 'Zeus', 'Piero', '2023-02-25 05:53:08.000000', '2023-02-25 05:53:08.000000', '33'");
-
-  $sentencia->bindParam(":nombre",$nombre);
-  $sentencia->bindParam(":apellido",$apellido);
-
-  $sentencia->bindParam(":direccion",$direccion);
-  $sentencia->bindParam(":telefono",$telefono);
-
-
-  $fecha_foto=new DateTime();
-
-  $nombreArchivo_foto=($foto!='')?$fecha_foto->getTimestamp()."_".$_FILES["foto"]['name']:"";
-  $tmp_foto=$_FILES["foto"]['tmp_name'];
-
-  if($tmp_foto!=''){
-    move_uploaded_file($tmp_foto,"./".$nombreArchivo_foto);
-  }
-  $sentencia->bindParam(":foto",$nombreArchivo_foto);
-  $sentencia->execute();
-  header("Location:index.php");
-
-
-
-}
-
-
-
-
 ?>
 
-<br/>
+
+
+
 <?php include("../../vistas/header.php");?>
+
+
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Vetdog V.1 | Vetdog - Vetdog Admin Template</title>
-    <!-- Bootstrap Material Datetime Picker Css -->
-    <link href="../../assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
-    <!-- Bootstrap DatePicker Css -->
-    <link href="../../assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
-    <!-- Google Font - Iconos -->
+    <title>DOGTORAS| DOGTORAS CLINICA VETERINARIA</title>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
     <!-- Bootstrap Core Css -->
-    <link href="../../assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
     <!-- Waves Effect Css -->
-    <link href="../../assets/plugins/node-waves/waves.css" rel="stylesheet" />
+    <link href="../assets/plugins/node-waves/waves.css" rel="stylesheet" />
     <!-- Animation Css -->
-    <link href="../../assets/plugins/animate-css/animate.css" rel="stylesheet" />
-    <link href="../../css/style.css" rel="stylesheet">
-    <link href="../../assets/css/themes/all-themes.css" rel="stylesheet" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../assets/img/lll.png" />
-       
-
+    <link href="../assets/plugins/animate-css/animate.css" rel="stylesheet" />
+    <!-- JQuery DataTable Css -->
+    <link href="../assets/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+    <!-- Custom Css -->
+    <link href="../css/style.css" rel="stylesheet">
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="../assets/css/themes/all-themes.css" rel="stylesheet" />
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/lll.png" />
 
 </head>
 
 <body class="theme-red">
-     <!-- Page Loader -->
-    <div class="page-loader-wrapper">
-        <div class="loader">
-            <div class="preloader">
-                <div class="spinner-layer pl-red">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
-                </div>
-            </div>
-            <p>Cargando...</p>
-        </div>
-    </div>
+<!-- Page Loader -->
+
     <!-- #END# Page Loader -->
 
     <!-- Overlay For Sidebars -->
@@ -119,7 +62,7 @@ if($_POST){
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" href="../panel-admin/administrador"> VETDOG - DASHBOARD </a>
+                <a class="navbar-brand" href="../vista/panel-admin/administrador"> VETDOG - DASHBOARD </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -139,7 +82,7 @@ if($_POST){
             <!-- User Info -->
             <div class="user-info">
                 <div class="image">
-                    <img src="../../assets/img/mujerico.png" width="48" height="48" alt="User" />
+                    <img src="../assets/img/mujerico.png" width="48" height="48" alt="User" />
                 </div>
                 <div class="info-container">
                     <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo ucfirst($_SESSION['nombre']); ?></div>
@@ -147,11 +90,11 @@ if($_POST){
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="../config/configuracion"><i class="material-icons">brightness_low</i>Mi Cuenta</a></li>
+                           <li><a href="../vista/config/configuracion"><i class="material-icons">brightness_low</i>Mi Cuenta</a></li>
                             <li role="separator" class="divider"></li>
                             <li role="separator" class="divider"></li>
 
-                            <li><a href="../pages-logout"><i class="material-icons">input</i>Cerrar Sesión</a></li>
+                            <li><a href="../vista/pages-logout"><i class="material-icons">input</i>Cerrar Sesión</a></li>
                         </ul>
                     </div>
                 </div>
@@ -159,7 +102,7 @@ if($_POST){
             <!-- #User Info -->
 
 
-            <!-- Menu -->
+           
             <div class="menu">
                 <ul class="list">
                     <li class="header">MENÚ DE NAVEGACIÓN</li>
@@ -173,14 +116,14 @@ if($_POST){
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">inbox</i>
-                            <span>PRODUCTOS</span>
+                            <span>Usuarios</span>
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="../productos/nuevo">Registrar</a>
+                                <a href="<?php echo $url_base; ?>secciones/usuarios/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/productos">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/usuarios">Listar / Modificar</a>
                             </li>
                         </ul>
                     </li>
@@ -200,17 +143,17 @@ if($_POST){
                         </ul>
                     </li>
 <!--======================================================================================================-->
-                    <li >
+                    <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">supervisor_account</i>
-                            <span>Usuarios</span>
+                            <span>CLIENTES</span>
                         </a>
                         <ul class="ml-menu">
-                        <li>
-                                <a href="<?php echo $url_base; ?>secciones/usuarios/crear.php">Registrar</a>
+                            <li>
+                                <a href="<?php echo $url_base; ?>secciones/cliente/crear.php">Registrar</a>
                             </li>
-                            <li >
-                                <a href="<?php echo $url_base; ?>secciones/usuarios">Listar / Modificar</a>
+                            <li>
+                                <a href="<?php echo $url_base; ?>secciones/cliente/">Listar / Modificar</a>
                             </li>
                         </ul>
                     </li>
@@ -230,16 +173,16 @@ if($_POST){
                         </ul>
                     </li>
 <!--======================================================================================================-->
-                    <li >
+                    <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">person_pin</i>
                             <span>VETERINARIOS</span>
                         </a>
                         <ul class="ml-menu">
                             <li>
-                            <a href="<?php echo $url_base; ?>secciones/veterinario/crear.php">Registrar</a>
+                                <a href="<?php echo $url_base; ?>secciones/veterinario/crear.php">Registrar</a>
                             </li>
-                            <li >
+                            <li>
                                 <a href="<?php echo $url_base; ?>secciones/veterinario">Listar / Modificar</a>
                             </li>
                         </ul>
@@ -252,34 +195,35 @@ if($_POST){
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="../mascotas/nuevo">Registrar</a>
+                                <a href="<?php echo $url_base; ?>secciones/mascota/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/mascotas">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/mascota">Listar / Modificar</a>
                             </li>
                             <li>
-                                <a href="../../folder/tipo">Tipos</a>
+                                <a href="<?php echo $url_base; ?>secciones/tipo">Tipos</a>
                             </li>
-                            <li>
-                                <a href="../../folder/raza">Razas</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/raza">Razas</a>
                             </li>
                         </ul>
 </li>
 <!--======================================================================================================-->
-                    <li class="active">
+                    <li class="active" >
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">calendar_today</i>
                             <span>CITAS</span>
                         </a>
                         <ul class="ml-menu">
-                            <li>
+                            <li >
                                 <a href="<?php echo $url_base; ?>secciones/citas/crear.php">Registrar</a>
                             </li>
-                            <li>
+                            <li >
                                 <a href="<?php echo $url_base; ?>secciones/citas">Listar / Modificar</a>
                             </li>
-                            <li>
-                                <a href="../../folder/servicio">Servicio</a>
+
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/servicios">Servicio</a>
                             </li>
                         </ul>
     </li>
@@ -296,9 +240,12 @@ if($_POST){
                             <li>
                                 <a href="../../folder/compra">Listar / Modificar</a>
                             </li>
+
                             <li>
                                 <a href="../compra/compras_fecha">Consultar por fecha</a>
                             </li>
+
+
                         </ul>
     </li>
 <!--======================================================================================================-->
@@ -315,7 +262,7 @@ if($_POST){
                                 <a href="../../folder/venta">Listar / Modificar</a>
                             </li>
 
-                            <li>
+                             <li>
                                 <a href="../venta/venta_fecha">Consultar por fecha</a>
                             </li>
                         </ul>
@@ -325,103 +272,54 @@ if($_POST){
         </aside>
     </section>
 
-<!--============================CONTENIDO DE LA PÁGINA ==========================================================-->
-
     <section class="content">
         <div class="container-fluid">
-
-            <div class="alert alert-info">
-  <strong>Estimado usuario!</strong>    Los campos remarcados con <span class="text-danger">*</span> son necesarios.
-</div>
-            <!-- Input -->
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="block-header">
+                <h1>SELECCIÓN DE TIPOS DE CITAS</h1>
+            </div>
+            <!-- Colored Card - With Loading -->
+            <div class="block-header">
+                <h2>
+                    Escoja como Generar su Cita
+                    <small>Clic sobre el Encabezado de Color Celeste para los Citas rapidas </small>
+                </h2>
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
                     <div class="card">
-                        <div class="header">
+                        <a href="cita_rapida.php"><div class="header bg-light-blue">
                             <h2>
-                                REGISTRO DE CITAS
-                                <small>Registra cualquier CITA...</small>
+                               CITAS RÁPIDAS <small></small>
                             </h2>
+                        </div></a>
+
+                        <div class="body">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat: <br><br>
+                            <b>1.-</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br>
+                            <b>2.-</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                         </div>
 
-                    <div class="body">
-                        <form method="POST"  autocomplete="off" enctype="multipart/form-data">
-                            <div class="row clearfix">
-                                
-
-                                <div class="col-sm-6">
-                                    <label class="control-label">Nombre del veterinario<span class="text-danger">*</span></label>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="text" name="nombre" required class="form-control" placeholder="Nombre del veterinario..." />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="control-label">Apellido del veterinario<span class="text-danger">*</span></label>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="text" name="apellido" required class="form-control" placeholder="Apellido del veterinario..." />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                     <label class="control-label">Foto del veterinario<span class="text-danger">*</span></label>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                        <input type="file"class="form-control" name="foto" id="foto" aria-describedby="helpId" placeholder="foto">             
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <label class="control-label">Direccion del veterinario<span class="text-danger">*</span></label>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="text" name="direccion" required class="form-control" placeholder="Direccion del veterinario..." />
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-sm-6">
-                                    <label class="control-label">Telefono del veterinario<span class="text-danger">*</span></label>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="text" name="telefono" required class="form-control" placeholder="Telefono del veterinario..." />
-                                        </div>
-                                    </div>
-                                </div>
-
-                   
-
-                             
-
-                                <div class="container-fluid" align="center">
-                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                    </div>
-
-                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                        <a type="button" href="index.php" class="btn bg-red"><i class="material-icons">cancel</i> LIMPIAR </a>
-                                    </div>
-
-          
-                                        
-
-                                         <button class="btn bg-green" name="agregar">GUARDAR<i class="material-icons">save</i></button>
-                                    </div>
-                                    
-                                </div>
-                        </form>
-                    </div>
+                        <div class="info-box-4 hover-zoom-effect">
+                            <div class="icon">
+                                <i class="material-icons col-blue">devices</i>
+                            </div>
+                            <div class="content">
+                                <div class="number">VETDOG</div>
+                                <div class="text">CITAS RÁPIDAS</div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
+
+
+              
+
             </div>
-            <!-- #END# Input -->
         </div>
     </section>
+    <!-- #END# Colored Card - With Loading -->
 
     <!-- Jquery Core Js -->
     <script src="../../assets/plugins/jquery/jquery.min.js"></script>

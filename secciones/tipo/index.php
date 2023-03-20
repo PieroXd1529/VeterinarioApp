@@ -254,18 +254,16 @@ $url_base="http://localhost/app/";
                             <span>COMPRA</span>
                         </a>
                         <ul class="ml-menu">
-                            <li>
-                                <a href="../compra/nuevo">Registrar</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/citas/crear.php">Registrar</a>
                             </li>
-                            <li>
-                                <a href="../../folder/compra">Listar / Modificar</a>
-                            </li>
-
-                            <li>
-                                <a href="../compra/compras_fecha">Consultar por fecha</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/citas">Listar / Modificar</a>
                             </li>
 
-
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/servicios">Servicio</a>
+                            </li>
                         </ul>
     </li>
 <!--======================================================================================================-->

@@ -30,6 +30,9 @@ if($_POST){
   $sentencia=$conexion->prepare("INSERT INTO `pet` (`id_pet`, `nom_mas`, `historia`, `foto`, `id_type`, `id_raza`, `sexo`, `edad`,  `peso`, `observ`, `fecha`, `estado`)
    VALUES (NULL, :nom_mas, :historia,:foto,  :id_type, :id_raza, :sexo, :edad,:peso,  :observ, :fecha,:estado);");
 
+
+
+
  $sentencia->bindParam(":nom_mas",$nom_mas);
  $sentencia->bindParam(":id_type",$id_type);
 $sentencia->bindParam(":id_raza",$id_raza);
@@ -296,11 +299,11 @@ $sentencia->bindParam(":id_raza",$id_raza);
                             <span>CITAS</span>
                         </a>
                         <ul class="ml-menu">
-                            <li>
-                                <a href="../citas/nuevo">Registrar</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/citas/crear.php">Registrar</a>
                             </li>
-                            <li>
-                                <a href="../../folder/citas">Listar / Modificar</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/citas">Listar / Modificar</a>
                             </li>
 
                             <li >
@@ -541,7 +544,7 @@ $sentencia->bindParam(":id_raza",$id_raza);
                                     </div>
 
                                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                        <a type="button" href="../../folder/mascotas" class="btn bg-red"><i class="material-icons">cancel</i> LIMPIAR </a>
+                                        <a type="button" href="index.php" class="btn bg-red"><i class="material-icons">cancel</i> LIMPIAR </a>
                                     </div>
 
                                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
