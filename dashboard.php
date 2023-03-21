@@ -225,7 +225,7 @@
                                 <a href="../compra/nuevo">Registrar</a>
                             </li>
                             <li>
-                                <a href="../../folder/compra">Listar / Modificar</a>
+                                <a href="secciones/compra/index.php">Listar / Modificar</a>
                             </li>
 
                              <li>

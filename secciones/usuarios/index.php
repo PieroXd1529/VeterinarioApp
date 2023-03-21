@@ -10,13 +10,15 @@ $url_base="http://localhost/app/";
 
     if(isset($_GET['txtID'])){
         $txtID=(isset($_GET['txtID']))?$_GET['txtID']:"";
-        $sentencia=$conexion->prepare("DELETE FROM usuarios WHERE id=:id");
-        $sentencia->bindParam(":id",$txtID);
+        $sentencia=$conexion->prepare("DELETE FROM usuarios WHERE id_usuario=:id_usuario");
+        $sentencia->bindParam(":id_usuario",$txtID);
         $sentencia->execute();
         header("Location:index.php");
     }
 
-    $sentencia=$conexion->prepare("SELECT * FROM `usuarios`");
+    $sentencia=$conexion->prepare("SELECT * ,
+    (SELECT descripcion from cargo WHERE cargo.id_cargo=usuarios.id_cargo limit 1)  as cargo
+    FROM `usuarios`");
     $sentencia->execute();
     $lista_usuarios=$sentencia->fetchAll(PDO::FETCH_ASSOC);
 
@@ -24,6 +26,11 @@ $url_base="http://localhost/app/";
 
 
     ?>
+
+
+
+<?php include("../../vistas/header.php");?>
+
 
 
 
@@ -327,7 +334,11 @@ $url_base="http://localhost/app/";
                                         <tr>
                                         <th>ID</th>
                                         <th>USUARIO</th>
-                                        <th>PASSWORD</th>
+                            
+                                        <th>CARGO</th>
+                                        
+                                        <th>ACCIONES</th>
+                                        
                                        
                                       
                                     </tr>
@@ -336,18 +347,18 @@ $url_base="http://localhost/app/";
                                     <tbody>
                                     <?php foreach($lista_usuarios as $registro){?>
                 <tr class="">
-                    <td scope="row"><?php echo $registro['id'];?></td>
+                    <td scope="row"><?php echo $registro['id_usuario'];?></td>
                     <td ><?php echo $registro['usuario'];?></td>
-                    <td ><?php echo $registro['password'];?></td>
-                    <td ><?php echo $registro['correo'];?></td>
+                    
+                    <td ><?php echo $registro['cargo'];?></td>
 
    
 
                    
-<td><a name="" id="" class="btn btn-info" href="editar.php?txtID=<?php echo $registro['id'];?>"  class="btn bg-blue btn-circle waves-effect waves-circle waves-float">
+<td><a name="" id="" class="btn btn-info" href="editar.php?txtID=<?php echo $registro['id_usuario'];?>"  class="btn bg-blue btn-circle waves-effect waves-circle waves-float">
                     <i class="material-icons">autorenew</i>
                 </a>
-                <a name="" id="" class="btn btn-danger" href="index.php?txtID=<?php echo $registro['id'];?>"  class="btn bg-red btn-circle waves-effect waves-circle waves-float">
+                <a name="" id="" class="btn btn-danger" href="index.php?txtID=<?php echo $registro['id_usuario'];?>"  class="btn bg-red btn-circle waves-effect waves-circle waves-float">
                     <i class="material-icons">delete</i>
                 </a>
               

@@ -1,17 +1,37 @@
 ﻿<?php
-     session_start();
-    
-    if(!isset($_SESSION['cargo']) == 1){
-    header('location: ../vista/pages-login');
-  }
+$url_base="http://localhost/app/";
+
 ?>
+
+
+<?php
+    include("../../bd.php");
+
+ 
+
+    $sentencia=$conexion->prepare("SELECT * ,
+    (SELECT nomprove from provedor WHERE provedor.id_prove=compra.id_prove limit 1)  as provedor
+    FROM `compra`");
+    $sentencia->execute();
+    $lista_compra=$sentencia->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+
+    ?>
+<?php include("../../vistas/header.php");?>
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Vetdog V.1 | Vetdog - Vetdog Admin Template</title>
+    <title>DOGTORAS| DOGTORAS CLINICA VETERINARIA</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
@@ -33,21 +53,7 @@
 
 <body class="theme-red">
 <!-- Page Loader -->
-    <div class="page-loader-wrapper">
-        <div class="loader">
-            <div class="preloader">
-                <div class="spinner-layer pl-red">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
-                </div>
-            </div>
-            <p>Cargando...</p>
-        </div>
-    </div>
+
     <!-- #END# Page Loader -->
 
     <!-- Overlay For Sidebars -->
@@ -100,7 +106,7 @@
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="../vista/config/configuracion"><i class="material-icons">brightness_low</i>Mi Cuenta</a></li>
+                           <li><a href="../vista/config/configuracion"><i class="material-icons">brightness_low</i>Mi Cuenta</a></li>
                             <li role="separator" class="divider"></li>
                             <li role="separator" class="divider"></li>
 
@@ -112,12 +118,12 @@
             <!-- #User Info -->
 
 
-            <!-- Menu -->
+           
             <div class="menu">
                 <ul class="list">
                     <li class="header">MENÚ DE NAVEGACIÓN</li>
                     <li>
-                        <a href="../vista/panel-admin/administrador">
+                        <a href="../panel-admin/administrador">
                             <i class="material-icons">home</i>
                             <span>INICIO</span>
                         </a>
@@ -126,14 +132,30 @@
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">inbox</i>
-                            <span>PRODUCTOS</span>
+                            <span>Usuarios</span>
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="../vista/productos/nuevo">Registrar</a>
+                                <a href="<?php echo $url_base; ?>secciones/usuarios/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="productos">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/usuarios">Listar / Modificar</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li class="active">
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">inbox</i>
+                            <span>PRODUCTOS</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li class="active">
+                                <a href="<?php echo $url_base; ?>secciones/producto/crear.php">Registrar</a>
+                            </li>
+                            <li class="active">
+                                <a href="<?php echo $url_base; ?>secciones/producto/">Listar / Modificar</a>
                             </li>
                         </ul>
                     </li>
@@ -145,10 +167,10 @@
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="../vista/categorias/nuevo">Registrar</a>
+                                <a href="../categorias/nuevo">Registrar</a>
                             </li>
                             <li>
-                                <a href="categorias">Listar / Modificar</a>
+                                <a href="../../folder/categorias">Listar / Modificar</a>
                             </li>
                         </ul>
                     </li>
@@ -160,25 +182,25 @@
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="../vista/clientes/nuevo">Registrar</a>
+                                <a href="<?php echo $url_base; ?>secciones/cliente/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="clientes">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/cliente/">Listar / Modificar</a>
                             </li>
                         </ul>
                     </li>
 <!--======================================================================================================-->
-                    <li>
+                    <li >
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">business</i>
                             <span>PROVEEDORES</span>
                         </a>
                         <ul class="ml-menu">
-                            <li>
-                                <a href="../vista/proveedores/nuevo">Registrar</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/provedores/crear.php">Registrar</a>
                             </li>
-                            <li>
-                                <a href="proveedores">Listar / Modificar</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/provedores/">Listar / Modificar</a>
                             </li>
                         </ul>
                     </li>
@@ -190,10 +212,10 @@
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="../vista/veterinarios/nuevo">Registrar</a>
+                                <a href="<?php echo $url_base; ?>secciones/veterinario/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="veterinarios">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/veterinario">Listar / Modificar</a>
                             </li>
                         </ul>
                     </li>
@@ -205,54 +227,57 @@
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="../vista/mascotas/nuevo">Registrar</a>
+                                <a href="<?php echo $url_base; ?>secciones/mascota/crear.php">Registrar</a>
                             </li>
                             <li>
-                                <a href="mascotas">Listar / Modificar</a>
+                                <a href="<?php echo $url_base; ?>secciones/mascota">Listar / Modificar</a>
                             </li>
                             <li>
-                                <a href="tipo">Tipos</a>
+                                <a href="<?php echo $url_base; ?>secciones/tipo">Tipos</a>
                             </li>
-                            <li>
-                                <a href="raza">Razas</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/raza">Razas</a>
                             </li>
                         </ul>
 </li>
 <!--======================================================================================================-->
-                    <li>
+                    <li  >
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">calendar_today</i>
                             <span>CITAS</span>
                         </a>
                         <ul class="ml-menu">
-                            <li>
-                                <a href="../vista/citas/nuevo">Registrar</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/citas/crear.php">Registrar</a>
                             </li>
-                            <li>
-                                <a href="citas">Listar / Modificar</a>
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/citas">Listar / Modificar</a>
                             </li>
-                            <li>
-                                <a href="servicio">Servicio</a>
+
+                            <li >
+                                <a href="<?php echo $url_base; ?>secciones/servicios">Servicio</a>
                             </li>
                         </ul>
     </li>
     <!--======================================================================================================-->
-    <li class="active">
+    <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">shopping_basket</i>
                             <span>COMPRA</span>
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="../vista/compra/nuevo">Registrar</a>
+                                <a href="../compra/nuevo">Registrar</a>
                             </li>
-                            <li class="active">
-                                <a href="compra">Listar / Modificar</a>
+                            <li>
+                                <a href="../../folder/compra">Listar / Modificar</a>
                             </li>
 
                             <li>
-                                <a href="../vista/compra/compras_fecha">Consultar por fecha</a>
+                                <a href="../compra/compras_fecha">Consultar por fecha</a>
                             </li>
+
+
                         </ul>
     </li>
 <!--======================================================================================================-->
@@ -263,13 +288,14 @@
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="../vista/venta/nuevo">Registrar</a>
+                                <a href="../venta/nuevo">Registrar</a>
                             </li>
                             <li>
-                                <a href="venta">Listar / Modificar</a>
+                                <a href="../../folder/venta">Listar / Modificar</a>
                             </li>
-                            <li>
-                                <a href="../vista/venta/venta_fecha">Consultar por fecha</a>
+
+                             <li>
+                                <a href="../venta/venta_fecha">Consultar por fecha</a>
                             </li>
                         </ul>
     </li>
@@ -277,7 +303,6 @@
         <aside id="rightsidebar" class="right-sidebar">
         </aside>
     </section>
-
 
 
 <!--=============================================================CONTENIDO DE LA PÁGINA =============================================================-->
@@ -298,7 +323,7 @@
                                 <?php
 $contraseña = "";
 $usuario = "root";
-$nombre_base_de_datos = "vetdog";
+$nombre_base_de_datos = "vetedog";
 try{
     $base_de_datos = new PDO('mysql:host=localhost;dbname=' . $nombre_base_de_datos, $usuario, $contraseña);
      $base_de_datos->query("set names utf8;");
@@ -309,8 +334,8 @@ try{
     echo "Ocurrió algo con la base de datos: " . $e->getMessage();
 }
 
-$sentencia = $base_de_datos->query("SELECT  compra.fecha, compra.id_compra,compra.estado, compra.total,compra.tipoc, compra.tipopa, supplier.id_prove, supplier.nomprove, supplier.ruc, supplier.direcc, supplier.pais, supplier.tele, supplier.corre,
-GROUP_CONCAT( products.nompro, '..', products.codigo, '..',products.preciC, '..', productos_comprados.canti SEPARATOR '__') AS products FROM compra INNER JOIN productos_comprados ON productos_comprados.id_compra = compra.id_compra INNER JOIN products ON products.id_prod = productos_comprados.id_prod INNER JOIN supplier ON compra.id_prove =supplier.id_prove GROUP BY compra.id_compra ORDER BY compra.id_compra DESC;");
+$sentencia = $base_de_datos->query("SELECT  compra.fecha, compra.id_compra,compra.estado, compra.total,compra.tipoc, compra.tipopa, provedor.id_prove, provedor.nomprove, provedor.ruc, provedor.direcc, provedor.pais, provedor.tele, provedor.corre,
+GROUP_CONCAT( productos.nompro, '..', productos.codigo, '..',productos.preciC, '..', productos_comprados.canti SEPARATOR '__') AS productos FROM compra INNER JOIN productos_comprados ON productos_comprados.id_compra = compra.id_compra INNER JOIN productos ON productos.id_pro = productos_comprados.id_pro INNER JOIN provedor ON compra.id_prove =provedor.id_prove GROUP BY compra.id_compra ORDER BY compra.id_compra DESC;");
 $compras = $sentencia->fetchAll(PDO::FETCH_OBJ);
 ?>
                                 <table class="table table-bordered table-striped table-hover dataTable js-exportable">
@@ -325,38 +350,32 @@ $compras = $sentencia->fetchAll(PDO::FETCH_OBJ);
                                         <th>ESTADO</th>
                                         <th>DETALLES</th>
                                      
-                                      
-                                    </tr>
+                                        </tr>
                                     </thead>
                                     
                                     <tbody>
-                                    <?php foreach($compras as $compra){ ?>
-                                    <tr>
-                                    <td><?php echo $compra->tipoc ?></td>
-                                    <td><?php echo $compra->fecha ?></td>
-                                    
-                                   
-
-                                    <td>S/.<?php echo $compra->total ?></td>
-                                    <td><?php echo $compra->nomprove ?></td>
-
-                                    <td>
+                                    <?php foreach($lista_compra as $registro){?>
+                <tr class="">
+                    <td scope="row"><?php echo $registro['id_compra'];?></td>
+                    <td ><?php echo $registro['fecha'];?></td>
+                    <td ><?php echo $registro['total'];?></td>
+                    <td ><?php echo $registro['provedor'];?></td>
+                    <td>
                 <?php    
 
-                if($compra->estado==1)  { ?> 
-                <form  method="get" action="javascript:activo('<?php echo $compra->id_compra; ?>')">
-                   
-                    <span class="label label-success">Aceptado</span>
-                </form>
-                <?php  }   else {?> 
-
-                    <form  method="get" action="javascript:inactivo('<?php echo $compra->id_compra; ?>')"> 
-                        <button type="submit" class="btn btn-danger btn-xs">Anuladas</button>
-                     </form>
-                        <?php  } ?>                         
-            </td>
+if($registro['estado']==1)  { ?> 
+    <form  method="get" action="javascript:activo('<?php echo $registro['id_compra']; ?>')">
+       
+        <span class="label label-success">Aceptado</span>
+    </form>
+    <?php  }   else {?> 
+    
+        <form  method="get" action="javascript:inactivo('<?php echo $registro['id_compra']; ?>')"> 
+            <button type="submit" class="btn btn-danger btn-xs">Anulado</button>
+         </form>
+            <?php  } ?></td> 
             <td>
-                <a type="button" href="../vista/compra/detalles?id=<?php echo $compra->id_compra; ?>"  class="btn bg-blue btn-circle waves-effect waves-circle waves-float">
+                <a type="button" href="detalles.php?txtID=<?php echo $registro['id_compra'];?>"  class="btn bg-blue btn-circle waves-effect waves-circle waves-float">
                     <i class="material-icons">remove_red_eye</i>
 
                 </a>
@@ -412,3 +431,4 @@ $compras = $sentencia->fetchAll(PDO::FETCH_OBJ);
 </body>
 
 </html>
+

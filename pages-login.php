@@ -16,37 +16,48 @@
 
     if($errMsg == '') {
       try {
-$stmt = $conexion->prepare('SELECT id,  usuario, contra,correo, id_cargo FROM usuarios WHERE usuario = :usuario');
-
+        $stmt = $conexion->prepare('SELECT u.id_usuario, u.usuario, u.contra, c.id_cargo, c.descripcion FROM usuarios u JOIN cargo c ON u.id_cargo = c.id_cargo WHERE u.usuario = :usuario');
 
         $stmt->execute(array(
-          ':usuario' => $usuario
-          
-          
-          ));
+            ':usuario' => $usuario
+        ));
+        
         $registro = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        
         if($registro == false){
-          $errMsg = "User $usuario no encontrado.";
+            $errMsg = "User $usuario no encontrado.";
         }
         else {
-          if($contra == $registro['contra']) {
-
-            $_SESSION['id'] = $registro['id'];
-            $_SESSION['usuario'] = $registro['usuario'];
-            $_SESSION['correo'] = $registro['correo'];
-            $_SESSION['contra'] = $registro['contra'];
-            $_SESSION['id_cargo'] = $registro['id_cargo'];
-            
-            
-    if($_SESSION['id_cargo'] == 1){
-          header('Location: dashboard.php');
+            if($contra == $registro['contra']) {
         
-        }
-            exit;
-          }
-          else
-            $errMsg = 'Contraseña incorrecta.';
+                $_SESSION['id_usuario'] = $registro['id_usuario'];
+                $_SESSION['usuario'] = $registro['usuario'];
+                $_SESSION['contra'] = $registro['contra'];
+                $_SESSION['id_cargo'] = $registro['id_cargo'];
+                $_SESSION['descripcion'] = $registro['descripcion'];
+        
+                if($_SESSION['id_cargo'] == 1){
+                    header('Location: dashboard.php');
+                    exit;
+                }
+
+
+                
+                if($_SESSION['id_cargo'] == 2){
+                  header('Location: dashboard.php');
+                  exit;
+              }
+
+
+              
+              if($_SESSION['id_cargo'] == 3){
+                header('Location: dashboard.php');
+                exit;
+            }
+            }
+            else {
+                $errMsg = 'Contraseña incorrecta.';
+            }
         }
       }
       catch(PDOException $e) {

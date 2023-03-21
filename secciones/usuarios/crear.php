@@ -10,15 +10,15 @@ include("../../bd.php");
 if($_POST){
   print_r($_POST);
   $usuario=(isset($_POST["usuario"])?$_POST["usuario"]:"");
-  $password=(isset($_POST["password"])?$_POST["password"]:"");
-  $correo=(isset($_POST["correo"])?$_POST["correo"]:"");
+  $contra=MD5(isset($_POST["contra"])?$_POST["contra"]:"");
+  $id_cargo=(isset($_POST["id_cargo"])?$_POST["id_cargo"]:"");
 
-  $sentencia=$conexion->prepare("INSERT INTO `usuarios` (`id`, `usuario`, `password`, `correo`) 
-  VALUES (NULL, :usuario, :password, :correo)");
+  $sentencia=$conexion->prepare("INSERT INTO `usuarios` (`id_usuario`, `usuario`, `contra`, `id_cargo`) 
+  VALUES (NULL, :usuario, :contra, :id_cargo)");
 
   $sentencia->bindParam(":usuario",$usuario);
-  $sentencia->bindParam(":password",$password);
-  $sentencia->bindParam(":correo",$correo);
+  $sentencia->bindParam(":contra",$contra);
+  $sentencia->bindParam(":id_cargo",$id_cargo);
 
   $sentencia->execute();
   header("Location:index.php");
@@ -345,16 +345,41 @@ if($_POST){
        <div class="mb-3">
          <label for="password" class="form-label">Password</label>
          <input type="password"
-           class="form-control" name="password" id="password" aria-describedby="helpId" placeholder="Password">
-         
-       </div>
-       <div class="mb-3">
-         <label for="correo" class="form-label">Correo</label>
-         <input type="email"
-           class="form-control" name="correo" id="correo" aria-describedby="helpId" placeholder="Correo">
-     
-       </div>
+           class="form-control" name="contra" id="contra" aria-describedby="helpId" placeholder="Password">
 
+           <div class="col-sm-4">
+                                    <label class="control-label">CARGO<span class="text-danger">*</span></label>
+                                    <select class="form-control show-tick"  name="id_cargo">
+                                        <option value="">-- Seleccione un CARGO --</option>
+<?php 
+ $dbhost = 'localhost';
+ $dbname = 'vetedog';  
+ $dbuser = 'root';                  
+ $dbpass = '';                  
+ 
+ try{
+  
+  $dbcon = new PDO("mysql:host={$dbhost};dbname={$dbname}",$dbuser,$dbpass);
+  $dbcon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  
+ }catch(PDOException $ex){
+  
+  die($ex->getMessage());
+ }
+ $stmt = $dbcon->prepare('SELECT * FROM cargo');
+        $stmt->execute();
+        
+        while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+            extract($row);
+            ?>
+            <option value="<?php echo $id_cargo; ?>"><?php echo $descripcion; ?></option>
+            <?php
+        }
+        ?>
+            </select> 
+
+            </div>
                                
 
                                
